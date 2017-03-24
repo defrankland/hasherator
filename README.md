@@ -7,8 +7,10 @@ This allows your Go backend to deliver CSS, JS, etc files to the browser without
 every time there is a change. 
 
 The intended usage is to run it at your application's startup and have it create a working directory, which contains
-the same files as the source directory but with the hash string inserted in the name. 
+the same files as the source directory but with the hash string inserted in the name. The reason for doing this is so 
+that your project repo can contain files with the non-hashed name, and the working directory can be added to .gitignore. 
 
+Please note that currently the working directory must be different from the source directory. 
 
 ## API
  
