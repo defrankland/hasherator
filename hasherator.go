@@ -1,4 +1,4 @@
-package Hasherator
+package hasherator
 
 import (
 	"crypto/md5"
