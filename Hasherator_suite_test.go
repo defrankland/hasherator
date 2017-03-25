@@ -1,4 +1,4 @@
-package Hasherator_test
+package hasherator_test
 
 import (
 	. "github.com/onsi/ginkgo"
