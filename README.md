@@ -27,6 +27,7 @@ Feed in the source and destination paths, as well as a string slice containing t
  
  ## Usage 
  
+ ### Hashing Files
  Intended operation is to perform this on application launch:
  
  ```
@@ -36,6 +37,7 @@ err := assets.Run("./mySource/", "./MyDestination/", []string{"doNotHashThisDire
  
 The `assets` instance can be passed to the HTTP controllers if the `assets.Map` is needed for reference, or if files need to be re-hashed at runtime.
  
+ ### Applying in Go Templates 
  If using Go templates for page rendering, the following can be used to reference the hashed file names: 
  
  ```
@@ -48,8 +50,9 @@ The `assets` instance can be passed to the HTTP controllers if the `assets.Map` 
  ```
   <link rel="stylesheet" href='../assets/css/bootstrap.min-ec3bb52a00e176a7181d454dffaea219.css'>
   ```
- 
-Another thing that might be useful -- File modifications can be loaded at runtime (without shutting down and restarting the application). Say you have an `originalAssets` instance you created at startup. Then, you could create a goroutine (possibly super awesome if you hook up [fsnotify](https://github.com/fsnotify/fsnotify)) containing:
+
+### Update Asset Files At Runtime
+Another thing that might be useful -- File modifications can be loaded at runtime (without shutting down and restarting the application). Say you have an `originalAssets` instance you created at startup. Then, you could create a goroutine containing:
 
 ```
 newAssets := AssetsDir{}
@@ -65,3 +68,5 @@ for i := 0; i < len(newAssets.Map); i++ {
  }
 }
 ```
+
+Or better yet, trigger the goroutine with [fsnotify](https://github.com/fsnotify/fsnotify).
