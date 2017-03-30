@@ -1,13 +1,13 @@
 package hasherator_test
 
 import (
-  . "github.com/onsi/ginkgo"
-  . "github.com/onsi/gomega"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 
-  "testing"
+	"testing"
 )
 
 func TestHasherator(t *testing.T) {
-  RegisterFailHandler(Fail)
-  RunSpecs(t, "Hasherator Suite")
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Hasherator Suite")
 }
