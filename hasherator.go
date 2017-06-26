@@ -10,14 +10,13 @@ import (
 )
 
 type AssetsDir struct {
-	Map map[string]string
+	Map           map[string]string
+	noHashDirList []string
 }
-
-var noHashDirList *[]string
 
 func (a *AssetsDir) Run(sourcePath, workingPath string, noHashDirs []string) error {
 
-	noHashDirList = &noHashDirs
+	a.noHashDirList = noHashDirs
 
 	a.Map = map[string]string{}
 
@@ -77,7 +76,7 @@ func (a *AssetsDir) recursiveHashAndCopy(dirPath, runtimePath string) error {
 			var hash string
 			var noHash bool
 			dir := strings.Split(runtimePath, "/")
-			for _, noDir := range *noHashDirList {
+			for _, noDir := range a.noHashDirList {
 				if noDir == dir[len(dir)-1] {
 					noHash = true
 				}
