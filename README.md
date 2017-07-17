@@ -17,7 +17,9 @@ Please note that currently the working directory must be different from the sour
  
  There is just one exported function: 
  
- `func (a *AssetsDir) Run(sourcePath, workingPath string, noHashDirs []string) error`
+ ```go
+ func (a *AssetsDir) Run(sourcePath, workingPath string, noHashDirs []string) error
+ ```
  
 Feed in the source and destination paths, as well as a string slice containing the names of any directories that you do not want to hash. The hashed files and the destination directory will be created. 
  
@@ -30,7 +32,7 @@ Feed in the source and destination paths, as well as a string slice containing t
  ### Hashing Files
  Intended operation is to perform this on application launch:
  
- ```
+ ```go
 assets := AssetsDir{}
 err := assets.Run("./mySource/", "./MyDestination/", []string{"doNotHashThisDirectory", "ThisOneEither"})
  ```
@@ -40,21 +42,21 @@ The `assets` instance can be passed to the HTTP controllers if the `assets.Map` 
  ### Applying in Go Templates 
  If using Go templates for page rendering, the following can be used to reference the hashed file names: 
  
- ```
+ ```html
  <link rel="stylesheet" href='../assets/css/{{index .AssetsMap "bootstrap.min.css"}}'>
  ```
  
  This will look up the key in assets map and render to the associated value. The final product for example should result in 
   bootstrap.min.css pointing to:
  
- ```
+ ```go
   <link rel="stylesheet" href='../assets/css/bootstrap.min-ec3bb52a00e176a7181d454dffaea219.css'>
   ```
 
 ### Update Asset Files At Runtime
 Another thing that might be useful -- File modifications can be loaded at runtime (without shutting down and restarting the application). Say you have an `originalAssets` instance you created at startup. Then, you could create a goroutine containing:
 
-```
+```go
 newAssets := AssetsDir{}
 err := assets.Run("./mySource/", "./NewDestination/", []string{"doNotHashThisDirectory", "ThisOneEither"})
 if err != nil {
