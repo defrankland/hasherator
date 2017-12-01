@@ -72,3 +72,57 @@ for i := 0; i < len(newAssets.Map); i++ {
 ```
 
 Or better yet, trigger the goroutine with [fsnotify](https://github.com/fsnotify/fsnotify).
+
+```go 
+watcher    *fsnotify.Watcher
+
+watcher, err = fsnotify.NewWatcher()
+if err != nil {
+ //log error
+}
+defer watcher.Close()
+
+watcher.Add("webapp/templates/")
+watcher.Add("webapp/assets/css/")
+watcher.Add("webapp/assets/js/")
+
+for {
+ select {
+ case event := <-watcher.Events:
+  if (event.Op&fsnotify.Create == fsnotify.Create ||
+   event.Op&fsnotify.Write == fsnotify.Write) &&
+   !strings.Contains(event.Name, "___") {
+
+   assets = &hasherator.AssetsDir{}
+
+   err = os.RemoveAll("/webappRuntime2/")
+   if err != nil {
+    //log error
+   }
+   
+   err := assets.Run("webapp/",
+    "webappRuntime2/", 
+    []string{"templates", "fonts"})
+   if err != nil {
+    //log error
+   }
+
+   err = os.RemoveAll("webappRuntime/")
+   if err != nil {
+    //log error
+   }
+   err = os.Rename("webappRuntime2/", "webappRuntime/")
+   if err != nil {
+    //log error
+   }
+
+   basecontroller.SetAssetsMap(assets.Map)
+   //log success message!
+  }
+ case err := <-watcher.Errors:
+  //log error
+ }
+ time.Sleep(500 * time.Millisecond)
+}
+
+```
