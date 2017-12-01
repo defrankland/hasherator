@@ -21,7 +21,9 @@ Please note that currently the working directory must be different from the sour
  func (a *AssetsDir) Run(sourcePath, workingPath string, noHashDirs []string) error
  ```
  
-Feed in the source and destination paths, as well as a string slice containing the names of any directories that you do not want to hash. The hashed files and the destination directory will be created. 
+  - sourcePath - directory containing the files you want to hash
+  - workingPath - directory where you want the hashed files to go (will be created if it does not exist)
+  - noHashDirs - names of any directories that you do not want to hash
  
  A map is also created on the AssetsDir object that contains the original (source) file name as the key and the hashed 
  file name as the value. 
